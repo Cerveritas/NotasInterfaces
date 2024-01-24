@@ -1,6 +1,8 @@
 package model;
 
-public class Nota {
+import java.io.Serializable;
+
+public class Nota implements Serializable {
 
     private String nombre;
     private String apellido;

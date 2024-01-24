@@ -3,10 +3,11 @@ package controller;
 import model.Nota;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.util.ArrayList;
+
+import static controller.GUImain.actualizarTabla;
 
 public class GUICrearNotas {
 
@@ -22,53 +23,70 @@ public class GUICrearNotas {
     public JLabel LABELnota;
 
 
+    public GUICrearNotas(JFrame frame, JTable table, ArrayList<Nota>notas) {
 
-    public static void main(String[] args) {
-
-        JFrame frame = new JFrame("GUICrearNotas");
-        frame.setContentPane(new GUICrearNotas().panelCrearNotas);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-
-
-    }
-
-    private static List<Nota>notas;
-
-
-    public GUICrearNotas(){
 
         GUARDARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
 
-
-                String nombre = textFieldNOMBRE.getText();
-                String apellido = textFieldAPELLIDO.getText();
-                String nota = textFieldNOTA.getText();
-
-                Nota nota1 = new Nota(nombre, apellido, nota);
-
-                GUImain.notas.add(nota1);
-
-                //GUImain.actualizarTabla(GUImain.table, GUImain.notas);
+                notas.add(new Nota(String.valueOf(textFieldNOMBRE.getText()), String.valueOf(textFieldAPELLIDO.getText()), String.valueOf(textFieldNOTA.getText())));
 
 
+                actualizarTabla(table);
+
+
+               /* JOptionPane.showMessageDialog(panelCrearNotas, "Nota creada correctamente...");
+                frame.dispose();*/
+            }
+        });
+
+        CANCELARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (JOptionPane.showConfirmDialog(panelCrearNotas, "¿Seguro que deseas cancelar la creacion de la nota?") == 0) {
+                    frame.dispose();
+                }
+            }
+        });
+    }
 
 
 
 
 
+    public GUICrearNotas(JFrame frame, JTable table, ArrayList<Nota>notas, Nota notaSeleccionada) {
 
-                JOptionPane.showMessageDialog(panelCrearNotas, "Nota creada correctamente...");
+        textFieldNOMBRE.setText(notaSeleccionada.getNombre());
+        textFieldAPELLIDO.setText(notaSeleccionada.getApellido());
+        textFieldNOTA.setText(notaSeleccionada.getNota());
+
+        GUARDARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
 
+                notas.remove(notaSeleccionada);
+                notas.add(new Nota(String.valueOf(textFieldNOMBRE.getText()), String.valueOf(textFieldAPELLIDO.getText()), String.valueOf(textFieldNOTA.getText()) ));
 
 
+                actualizarTabla(table);
 
 
+               /* JOptionPane.showMessageDialog(panelCrearNotas, "Nota creada correctamente...");
+                frame.dispose();*/
+            }
+        });
+
+        CANCELARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (JOptionPane.showConfirmDialog(panelCrearNotas, "¿Seguro que deseas cancelar la creacion de la nota?") == 0){
+                    frame.dispose();
+                }
             }
         });
 
@@ -76,6 +94,7 @@ public class GUICrearNotas {
 
 
     }
+
 
 
 }

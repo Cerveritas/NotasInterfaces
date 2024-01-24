@@ -1,11 +1,9 @@
 package controller;
 
 import model.Nota;
-import model.modeloTablaNota;
 
 import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,74 +13,95 @@ import java.util.ArrayList;
 public class GUImain {
 
 
+    private static String[] nombreColumnas = {("Nombre"), ("Apellidos"), ("Nota")};
+    public JTable table1;
+
+
     private JButton CREARButton;
     private JButton MODIFICARButton;
     private JButton ELIMINARButton;
-    private JPanel PanelPrincipal;
-    private JTable table1;
+    public JPanel PanelPrincipal;
+    //private JTable table1;
     private JScrollPane ScrollPanel;
 
 
     static ArrayList<Nota>notas = new ArrayList<>();
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("GUImain");
-        frame.setContentPane(new GUImain().PanelPrincipal);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setBounds(500,100,700,500);
-        frame.setVisible(true);
-
-        actualizarTabla(new GUImain().table1, notas);
+    //private static ArrayList<Nota> notas;
+    private Nota notasSeleccionada;
 
 
-        new GUImain().table1.setPreferredScrollableViewportSize(new Dimension(700,500));
+
+
+
+
+
+
+
+
+    // Metodo de actualizar tabla
+    public static void actualizarTabla(JTable table) {
+
+       String[][] data = new String[notas.size()][3];
+        for(int i = 0; i < notas.size(); i++){
+            String[] row = {notas.get(i).getNombre(), notas.get(i).getApellido(), notas.get(i).getNota()};
+            data[i] = row;
+        }
+
+        table.setModel(new DefaultTableModel(data, nombreColumnas));
+        table.setCellSelectionEnabled(false);
+        table.repaint();
+        table.revalidate();
 
     }
 
-    // Metodo de actualizar tabla
-
-    public static void actualizarTabla(JTable table1, ArrayList<Nota> notas) {
-
-        table1.setModel(new modeloTablaNota(notas));
-        table1.getColumnModel().getColumn(0).setPreferredWidth(0);
-    }
 
 
 
-    public GUImain() {
+
+
+    public GUImain(JFrame frame) {
+
+        table1.setModel(new DefaultTableModel(nombreColumnas, 0));
+        actualizarTabla(table1);
 
 
         CREARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                modeloTablaNota modeloTablaNota = new modeloTablaNota(notas);
 
-                JFrame frameCrearUsuario = new JFrame();
-                frameCrearUsuario.setVisible(true);
-                frameCrearUsuario.setContentPane(new GUICrearNotas().panelCrearNotas);
-                frameCrearUsuario.setBounds(500,100,250,350);
-
-                //modeloTablaNota.agregarUsuario();
-
+                JFrame frameForm = new JFrame();
+                frameForm.setContentPane(new GUICrearNotas(frameForm, table1, notas).panelCrearNotas);
+                frameForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameForm.pack();
+                frameForm.setVisible(true);
+                frameForm.setBounds(500,100,250,350);
 
 
+            }
+        });
+
+        MODIFICARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JFrame frameForm = new JFrame();
+                frameForm.setContentPane(new GUICrearNotas(frameForm, table1, notas, notasSeleccionada).panelCrearNotas);
+                frameForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameForm.pack();
+                frameForm.setVisible(true);
+                notasSeleccionada = null;
+
+            }
+        });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        ELIMINARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notas.remove(notasSeleccionada);
+                actualizarTabla(table1);
+                notasSeleccionada = null;
 
             }
         });
@@ -92,9 +111,17 @@ public class GUImain {
 
 
 
+
     }
 
 
+    public ArrayList<Nota> getNotas() {
+        return notas;
+    }
+
+    public void setNotas(ArrayList<Nota> notas) {
+        this.notas = notas;
+    }
 
 
 
