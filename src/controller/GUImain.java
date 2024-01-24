@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 
 public class GUImain {
+
+
     private JButton CREARButton;
     private JButton MODIFICARButton;
     private JButton ELIMINARButton;
@@ -40,7 +42,7 @@ public class GUImain {
 
     // Metodo de actualizar tabla
 
-    private static void actualizarTabla(JTable table1, ArrayList<Nota> notas) {
+    public static void actualizarTabla(JTable table1, ArrayList<Nota> notas) {
 
         table1.setModel(new modeloTablaNota(notas));
         table1.getColumnModel().getColumn(0).setPreferredWidth(0);
@@ -55,10 +57,17 @@ public class GUImain {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                modeloTablaNota modeloTablaNota = new modeloTablaNota(notas);
+
                 JFrame frameCrearUsuario = new JFrame();
                 frameCrearUsuario.setVisible(true);
                 frameCrearUsuario.setContentPane(new GUICrearNotas().panelCrearNotas);
                 frameCrearUsuario.setBounds(500,100,250,350);
+
+                //modeloTablaNota.agregarUsuario();
+
+
+
 
 
 

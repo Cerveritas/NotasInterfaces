@@ -9,10 +9,10 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class GUICrearNotas {
+
     public JPanel panelCrearNotas;
     public JTextField textFieldNOMBRE;
     public JTextField textFieldAPELLIDO;
-
     public JLabel LABELnotaTitulo;
     public JTextField textFieldNOTA;
     public JButton GUARDARButton;
@@ -45,18 +45,24 @@ public class GUICrearNotas {
 
 
 
-
                 String nombre = textFieldNOMBRE.getText();
                 String apellido = textFieldAPELLIDO.getText();
                 String nota = textFieldNOTA.getText();
 
                 Nota nota1 = new Nota(nombre, apellido, nota);
 
+                GUImain.notas.add(nota1);
 
-             
+                //GUImain.actualizarTabla(GUImain.table, GUImain.notas);
+
+
+
+
+
+
+
 
                 JOptionPane.showMessageDialog(panelCrearNotas, "Nota creada correctamente...");
-
 
 
 
