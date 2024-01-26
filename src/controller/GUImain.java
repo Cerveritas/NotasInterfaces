@@ -34,10 +34,6 @@ public class GUImain {
 
 
 
-
-
-
-
     // Metodo de actualizar tabla
     public static void actualizarTabla(JTable table) {
 
