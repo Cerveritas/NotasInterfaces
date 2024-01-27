@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 
@@ -57,6 +59,16 @@ public class GUImain {
 
     public GUImain(JFrame frame) {
 
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table1.rowAtPoint(e.getPoint());
+                if (row >= 0) {
+                    notasSeleccionada = notas.get(row);
+                }
+            }
+        });
+
         table1.setModel(new DefaultTableModel(nombreColumnas, 0));
         actualizarTabla(table1);
 
@@ -72,6 +84,7 @@ public class GUImain {
                 frameForm.pack();
                 frameForm.setVisible(true);
                 frameForm.setBounds(500,100,250,350);
+                frameForm.setResizable(false);
 
 
             }
@@ -81,12 +94,21 @@ public class GUImain {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                JFrame frameForm = new JFrame();
-                frameForm.setContentPane(new GUICrearNotas(frameForm, table1, notas, notasSeleccionada).panelCrearNotas);
-                frameForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frameForm.pack();
-                frameForm.setVisible(true);
-                notasSeleccionada = null;
+                if (notasSeleccionada == null){
+                    JOptionPane.showMessageDialog(frame, "Debes seleccionar una nota");
+                } else {
+                    JFrame frameForm = new JFrame();
+                    frameForm.setContentPane(new GUICrearNotas(frameForm, table1, notas, notasSeleccionada).panelCrearNotas);
+                    frameForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frameForm.pack();
+                    frameForm.setBounds(500,100,250,350);
+                    frameForm.setVisible(true);
+                    notasSeleccionada = null;
+                    frameForm.setResizable(false);
+                }
+
+
+
 
             }
         });
@@ -95,9 +117,17 @@ public class GUImain {
         ELIMINARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                notas.remove(notasSeleccionada);
-                actualizarTabla(table1);
-                notasSeleccionada = null;
+
+                if (JOptionPane.showConfirmDialog(frame, "Seguro que quieres eliminar esta nota?") == 0){
+                    notas.remove(notasSeleccionada);
+                    actualizarTabla(table1);
+                    notasSeleccionada = null;
+                } else {
+
+                }
+
+
+
 
             }
         });

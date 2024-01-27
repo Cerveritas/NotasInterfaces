@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import static controller.GUImain.actualizarTabla;
 
+
 public class GUICrearNotas {
 
     public JPanel panelCrearNotas;
@@ -33,8 +34,11 @@ public class GUICrearNotas {
 
                 notas.add(new Nota(String.valueOf(textFieldNOMBRE.getText()), String.valueOf(textFieldAPELLIDO.getText()), String.valueOf(textFieldNOTA.getText())));
 
-
                 actualizarTabla(table);
+
+                JOptionPane.showMessageDialog(panelCrearNotas, "Nota insertada correctamente");
+                frame.dispose();
+
 
 
                /* JOptionPane.showMessageDialog(panelCrearNotas, "Nota creada correctamente...");
@@ -56,7 +60,6 @@ public class GUICrearNotas {
 
 
 
-
     public GUICrearNotas(JFrame frame, JTable table, ArrayList<Nota>notas, Nota notaSeleccionada) {
 
         textFieldNOMBRE.setText(notaSeleccionada.getNombre());
@@ -73,6 +76,9 @@ public class GUICrearNotas {
 
 
                 actualizarTabla(table);
+
+                JOptionPane.showMessageDialog(panelCrearNotas, "Nota modificada correctamente");
+                frame.dispose();
 
 
                /* JOptionPane.showMessageDialog(panelCrearNotas, "Nota creada correctamente...");

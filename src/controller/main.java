@@ -14,6 +14,7 @@ public class main {
         frame.pack();
         frame.setBounds(500,100,700,500);
         frame.setVisible(true);
+        frame.setResizable(false);
 
         //actualizarTabla(new GUImain().table1, notas);
 
